@@ -62,3 +62,7 @@ with tf.Session() as sess:
             s = s1
         rList.append(rAll)
 plt.plot(rList)
+
+print("Percent of successful eps: ", str(sum(rList)/num_ep)+"%")
+plt.bar(range(len(rList)), rList, color="blue")
+plt.show()
