@@ -24,6 +24,7 @@ lr = 0.01
 
 model = tf.keras.models.Sequential([
     tf.keras.layers.Dense(input_size),
+    tf.keras.layers.Dense(int(input_size//2)),
     tf.keras.layers.Dense(output_size)
 ])
 
