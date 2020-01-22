@@ -17,9 +17,11 @@ def one_hot(x):
     return np.identity(total_states)[x:x+1]
 
 X = tf.placeholder(shape=[1, input_size], dtype=tf.float32)
-W = tf.Variable(tf.random_uniform([input_size, output_size],0,0.01))
+W1 = tf.Variable(tf.random_uniform([input_size, int(input_size//2)],0,0.01))
+W2 = tf.Variable(tf.random_uniform([int(input_size//2), output_size],0,0.01))
 
-Qpred   = tf.matmul(X,W)
+Q1   = tf.matmul(X,W1)
+Qpred = tf.matmul(Q1, W2)
 Y       = tf.placeholder(shape=[1,output_size], dtype=tf.float32)
 
 loss = tf.reduce_sum(tf.square(Y-Qpred))
@@ -27,7 +29,7 @@ loss = tf.reduce_sum(tf.square(Y-Qpred))
 train = tf.train.GradientDescentOptimizer(learning_rate=lr).minimize(loss)
 
 dis = .99
-num_ep = 2000
+num_ep = 4000
 
 rList = []
 init = tf.global_variables_initializer()
@@ -63,6 +65,6 @@ with tf.Session() as sess:
         rList.append(rAll)
 plt.plot(rList)
 
-print("Percent of successful eps: ", str(sum(rList)/num_ep)+"%")
+print("Percent of successful eps: ", str(sum(rList)*100/num_ep)+"%")
 plt.bar(range(len(rList)), rList, color="blue")
 plt.show()
