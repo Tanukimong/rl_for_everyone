@@ -2,6 +2,9 @@ import gym
 import numpy as np
 import tensorflow.compat.v1 as tf
 import matplotlib.pyplot as plt
+import time
+
+start = time.time()
 
 tf.disable_eager_execution()
 
@@ -62,7 +65,9 @@ with tf.Session() as sess:
             s = s1
         rList.append(rAll)
 plt.plot(rList)
+now = time.time()-start
+print("Total time consumped : {}min {}sec".format(int(now//60),int(now%60)))
 
-print("Percent of successful eps: ", str(sum(rList)/num_ep)+"%")
+print("Percent of successful eps: ", str(sum(rList*100)/num_ep)+"%")
 plt.bar(range(len(rList)), rList, color="blue")
 plt.show()
